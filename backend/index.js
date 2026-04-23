@@ -217,5 +217,8 @@ app.listen(PORT,()=>{
     console.log("app started");
     mongoose.connect(uri);
     console.log("db connected");
-    res.send("connected");
 });//for starting the application
+
+app.get("/",(req,res)=>{
+   res.send("connected");
+})
