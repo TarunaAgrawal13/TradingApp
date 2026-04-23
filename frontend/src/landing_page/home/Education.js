@@ -5,7 +5,7 @@ function Education() {
             <div className='row'>
 
                 <div className='col-6'>
-                    <img src = 'media/images/education.svg' style={{width:"70%"}} alt="No Image"></img>
+                    <img src = 'media/images/education.svg' style={{width:"70%"}} alt=""></img>
                  </div>
 
                  <div className='col-6'>
