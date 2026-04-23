@@ -213,7 +213,7 @@ app.post('/newOrder',async(req,res)=>{
  res.send("order saved");
 });
 
-app.listen(3002,()=>{
+app.listen(PORT,()=>{
     console.log("app started");
     mongoose.connect(uri);
     console.log("db connected");
