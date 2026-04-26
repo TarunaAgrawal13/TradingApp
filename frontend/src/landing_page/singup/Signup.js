@@ -5,7 +5,7 @@ import { BACKEND_URL,DASHBOARD_URL } from "../../config";
 /* ---------------- API CALLS ---------------- */
 
 const signup = async (data) => {
-  const res = await fetch(`${BASE_URL}/api/auth/register`, {
+  const res = await fetch(`${BACKEND_URL}/api/auth/register`, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     credentials: "include",
