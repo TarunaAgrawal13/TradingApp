@@ -1,14 +1,26 @@
-require('dotenv').config();//will be added to process to acces this process process.env.value is used//env value will go to system process
+const { FRONTEND_URL, DASHBOARD_URL } = require('./config');//extra
+require('dotenv').config();//will be added to process to acces this process process.env.value is used//env value will go to system process;
 const express = require("express");
 const mongoose = require("mongoose");
 const bodyParser = require('body-parser');
 const cors = require("cors");
+const cookieParser = require("cookie-parser");//extra
 //importing holding models using for get route
 const {HoldingModel} = require("./model/HoldingModel");
 //importing position model for get route
 const {positionModel} = require("./model/positionModel");
 
 const {orderModel} = require('./model/orderModel');
+
+
+// Auth routes
+const { router } = require("./routes/auth");//extra
+
+// Middleware
+const { auth } = require("./middleware/auth");//extra
+
+
+
 //establishing connection
 
 const PORT = process.env.PORT||3002;
@@ -16,9 +28,32 @@ const uri = process.env.MONGO_URL;
 
 const app = express();//for creating application
 
+
+app.use(express.json());      // extra
+app.use(cookieParser());      //extra
+
+
+
+//extra
+app.use(
+  cors({
+    origin: [FRONTEND_URL, DASHBOARD_URL],
+    credentials: true,
+  })
+);
+
+
+
 //bodyparser and cors
-app.use(cors());
-app.use(bodyParser.json());
+// app.use(cors()); //commented
+// app.use(bodyParser.json()); //commented
+
+
+
+
+
+//extra
+app.use("/api/auth", router);
 
 ////adding holdings data into db
 
@@ -213,11 +248,25 @@ app.post('/newOrder',async(req,res)=>{
  res.send("order saved");
 });
 
-app.listen(PORT,()=>{
-    console.log("app started");
-    mongoose.connect(uri);
-    console.log("db connected");
-});//for starting the application
+// app.listen(PORT,()=>{
+//     console.log("app started");
+//     mongoose.connect(uri);
+//     console.log("db connected");
+// });//for starting the application
+
+
+mongoose.connect(uri)
+  .then(() => {
+    console.log("DB connected");
+    app.listen(PORT, () => {
+      console.log("Server running on port", PORT);
+    });
+  })
+  .catch(err => console.log(err));
+
+
+
+
 
 app.get("/",(req,res)=>{
    res.send("connected");
